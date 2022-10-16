@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package it.unibo.coordination.tusow.grpc;
+
 message TupleSpaceID {
   string id = 1;
   TupleSpaceType type = 2;

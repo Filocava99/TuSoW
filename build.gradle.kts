@@ -5,6 +5,7 @@ plugins {
     kotlin("jvm")
     id("org.danilopianini.git-sensitive-semantic-versioning")
     id("org.jetbrains.dokka")
+    idea
 }
 
 val javaVersion: String by project

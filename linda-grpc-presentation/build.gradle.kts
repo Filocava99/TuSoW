@@ -7,11 +7,10 @@ import com.google.protobuf.gradle.protoc
 plugins {
     kotlin("jvm")
     id("com.google.protobuf") version "0.8.18"
-    "java-library"
-    // ASSUMES GRADLE 5.6 OR HIGHER. Use plugin version 0.8.10 with earlier gradle versions
-    // Generate IntelliJ IDEA's .idea & .iml project files
-    "idea"
+    id("java-library")
+    idea
 }
+//apply(plugin= "com.lightbend.akka.grpc.gradle")
 
 group = "it.unibo.coordaas.tusow.grpc.presentation"
 version = "0.7.2-dev03+fb9b118"
@@ -21,12 +20,7 @@ repositories {
     mavenLocal()
 }
 
-// IMPORTANT: You probably want the non-SNAPSHOT version of gRPC. Make sure you
-// are looking at a tagged version of the example and not "master"!
-
-// Feel free to delete the comment at the next line. It is just for safely
-// updating the version in our release process.
-val grpcVersion = "1.43.2" // CURRENT_GRPC_VERSION
+val grpcVersion = "1.43.2"
 val protobufVersion = "3.19.3"
 val protocVersion = protobufVersion
 val grpcKotlinVersion = "1.2.1"
@@ -45,10 +39,8 @@ dependencies {
     implementation("io.grpc:grpc-stub:${grpcVersion}")
     compileOnly("org.apache.tomcat:annotations-api:6.0.53")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2")
-    // examples/advanced need this for JsonFormat
     implementation("com.google.protobuf:protobuf-java-util:${protobufVersion}")
     implementation("ch.qos.logback:logback-classic:_")
-
     runtimeOnly("io.grpc:grpc-netty-shaded:${grpcVersion}")
 
     testImplementation("io.grpc:grpc-testing:${grpcVersion}")
@@ -68,6 +60,20 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
 
 tasks.withType<Test> {
     testLogging.showStandardStreams = true
+}
+
+tasks {
+    withType<Copy> {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+}
+
+tasks {
+    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions {
+            jvmTarget = "11"
+        }
+    }
 }
 
 task("prepareKotlinBuildScriptModel") {}

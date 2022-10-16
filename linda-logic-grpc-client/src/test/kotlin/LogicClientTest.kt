@@ -1,11 +1,12 @@
-import TusowGRPC.*
-import TusowServiceGrpc.TusowServiceStub
+import it.unibo.coordination.tusow.grpc.TusowGRPC.*
+import it.unibo.coordination.tusow.grpc.TusowServiceGrpc.TusowServiceStub
 import io.grpc.BindableService
 import io.grpc.ManagedChannelBuilder
 import io.grpc.Server
 import io.grpc.ServerBuilder
 import io.grpc.stub.StreamObserver
 import it.unibo.coordaas.tusow.grpc.logic.LogicGRPCHandler
+import it.unibo.coordination.tusow.grpc.TusowServiceGrpc
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals

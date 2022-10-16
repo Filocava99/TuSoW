@@ -1,7 +1,7 @@
 package it.unibo.coordaas.tusow.grpc.logic
 
-import TusowGRPC.*
-import TusowServiceGrpc
+import it.unibo.coordination.tusow.grpc.TusowGRPC.*
+import it.unibo.coordination.tusow.grpc.TusowServiceGrpc
 import io.grpc.stub.StreamObserver
 import it.unibo.coordination.Promise
 import it.unibo.coordination.linda.core.TupleSpace
