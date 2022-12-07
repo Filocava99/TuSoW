@@ -10,8 +10,8 @@ plugins {
 group = "it.unibo.coordaas.tusow.grpc.text"
 version = "0.7.2-dev08+29f0ef4"
 
-java.sourceCompatibility = org.gradle.api.JavaVersion.VERSION_11
-java.targetCompatibility = org.gradle.api.JavaVersion.VERSION_11
+java.sourceCompatibility = org.gradle.api.JavaVersion.VERSION_1_8
+java.targetCompatibility = org.gradle.api.JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
