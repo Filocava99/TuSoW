@@ -1,0 +1,84 @@
+import com.google.protobuf.gradle.GenerateProtoTask
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        gradlePluginPortal()
+    }
+    dependencies {
+    }
+}
+
+
+plugins {
+    id 'scala'
+    id 'java'
+    id 'application'
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "com.lightbend.akka.grpc.gradle" version '2.2.0'
+    id "com.github.maiflai.scalatest" version "0.26"
+}
+//apply plugin: "com.lightbend.akka.grpc.gradle"
+
+group 'it.unibo.coordaas'
+version '0.7.2-dev0x+8be5bbd'
+
+repositories {
+    mavenCentral()
+}
+
+task copyProto(type: Copy) {
+    from '../linda-grpc-presentation/src/main/proto'
+    into 'src/main/proto'
+}
+
+project.tasks.matching {it.name == "generateProto"}.configureEach {
+    dependsOn copyProto
+}
+
+mainClassName = "it.unibo.coordination.tusow.akka.Server"
+
+dependencies {
+    //implementation 'org.scala-lang:scala-library:2.13.6'
+    //testImplementation 'org.scalatest:scalatest_2.11:3.2.12'
+    //implementation("com.lightbend.akka.grpc:akka-grpc-runtime_2.12:2.1.4")
+    implementation(project(":linda-core"))
+    compileClasspath(project(":linda-logic"))
+    compileClasspath(project(":linda-logic-presentation"))
+    compileClasspath(project(":linda-text"))
+    compileClasspath(project(":linda-text-presentation"))
+    compileClasspath(project(":tusow-service"))
+    compileClasspath(project(":linda-grpc-presentation"))
+    compileClasspath(project(":linda-text-grpc-client"))
+    compileClasspath(project(":linda-logic-grpc-client"))
+    compileClasspath(project(":tusow-grpc"))
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+    implementation('com.typesafe.akka:akka-actor-typed_2.12:2.7.0')
+    implementation('com.typesafe.akka:akka-discovery_2.12:2.7.0')
+    implementation('com.typesafe.akka:akka-protobuf_2.12:2.7.0')
+    implementation('com.typesafe.akka:akka-stream_2.12:2.7.0')
+    implementation('com.typesafe.akka:akka-pki_2.12:2.7.0')
+    implementation('com.typesafe.akka:akka-http_2.12:10.4.0')
+    implementation('com.typesafe.akka:akka-http2-support_2.12:10.4.0')
+    implementation('ch.qos.logback:logback-classic:1.2.3')
+
+    testImplementation('com.typesafe.akka:akka-actor-testkit-typed_2.12:2.7.0')
+    testImplementation('com.typesafe.akka:akka-stream-testkit_2.12:2.7.0')
+    testImplementation('org.scalatest:scalatest_2.12:3.1.1')
+    // optional in Scalatest
+    //testRuntime('com.vladsch.flexmark:flexmark-all:0.35.10')
+    // Required by https://github.com/maiflai/gradle-scalatest
+    //testRuntime 'org.pegdown:pegdown:1.4.2'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+processResources{
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
